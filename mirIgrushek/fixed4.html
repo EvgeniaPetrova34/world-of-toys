@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Контакты | Мир игрушек</title>
-       <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
@@ -61,37 +61,43 @@
                 </div>
 
                 <div class="social-media">
-                    <a href="https://vk.com/geniamcdonald" class="social-icon">ВК</a>
-                    <a href="https://t.me/warndrop" class="social-icon">TG</a>
+                    <a href="https://vk.com/geniamcdonald" class="social-icon" target="_blank" rel="noopener noreferrer">ВК</a>
+                    <a href="https://t.me/warndrop" class="social-icon" target="_blank" rel="noopener noreferrer">TG</a>
                 </div>
             </div>
             
-             <div class="map-container">
-                    <iframe class="map-frame" src="https://yandex.ru/map-widget/v1/?ll=37.6176%2C55.7558&z=15&pt=37.6176%2C55.7558~v1pm2rdl" allowfullscreen="true"></iframe>
-                    <div class="map-marker"></div>
-                    <div class="address-marker">ул. Игрушечная, 15, ТЦ "Детский мир"</div>
-             </div>
+            <div class="map-container">
+                <iframe class="map-frame" src="https://yandex.ru/map-widget/v1/?ll=37.6176%2C55.7558&z=15&pt=37.6176%2C55.7558~v1pm2rdl" allowfullscreen="true"></iframe>
+                <div class="map-marker"></div>
+                <div class="address-marker">ул. Игрушечная, 15, ТЦ "Детский мир"</div>
+            </div>
+        </div>
+
         <div class="contact-form">
             <h2>Обратная связь</h2>
-            <form>
+            <form id="feedbackForm">
                 <div class="form-group">
                     <label for="name">Ваше имя</label>
-                    <input type="text" id="name" placeholder="Иван Иванов">
+                    <input type="text" id="name" placeholder="Иван Иванов" required>
+                    <div id="nameError" class="error"></div>
                 </div>
                 
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" placeholder="example@mail.ru">
+                    <input type="email" id="email" placeholder="example@mail.ru" required>
+                    <div id="emailError" class="error"></div>
                 </div>
                 
                 <div class="form-group">
                     <label for="phone">Телефон</label>
-                    <input type="tel" id="phone" placeholder="+7 (999) 123-45-67">
+                    <input type="tel" id="phone" placeholder="+7 (999) 123-45-67" required>
+                    <div id="phoneError" class="error"></div>
                 </div>
                 
                 <div class="form-group">
                     <label for="message">Сообщение</label>
-                    <textarea id="message" placeholder="Ваш вопрос или сообщение"></textarea>
+                    <textarea id="message" placeholder="Ваш вопрос или сообщение" required></textarea>
+                    <div id="messageError" class="error"></div>
                 </div>
                 
                 <button type="submit" class="submit-btn">Отправить сообщение</button>
@@ -124,5 +130,7 @@
             </div>
         </div>
     </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
