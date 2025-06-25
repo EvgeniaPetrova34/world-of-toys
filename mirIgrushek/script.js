@@ -456,3 +456,101 @@ document.addEventListener('DOMContentLoaded', function() {
         return avatars[Math.floor(Math.random() * avatars.length)];
     }
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('feedbackForm');
+    
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (validateForm()) {
+            // Здесь можно добавить отправку формы
+            alert('Форма успешно отправлена!');
+            form.reset();
+        }
+    });
+    
+    function validateForm() {
+        let isValid = true;
+        
+        // Валидация имени
+        const name = document.getElementById('name');
+        const nameError = document.getElementById('nameError');
+        if (name.value.trim() === '') {
+            nameError.textContent = 'Пожалуйста, введите ваше имя';
+            name.classList.add('invalid');
+            isValid = false;
+        } else {
+            nameError.textContent = '';
+            name.classList.remove('invalid');
+        }
+        
+        // Валидация email
+        const email = document.getElementById('email');
+        const emailError = document.getElementById('emailError');
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (email.value.trim() === '') {
+            emailError.textContent = 'Пожалуйста, введите ваш email';
+            email.classList.add('invalid');
+            isValid = false;
+        } else if (!emailRegex.test(email.value)) {
+            emailError.textContent = 'Пожалуйста, введите корректный email';
+            email.classList.add('invalid');
+            isValid = false;
+        } else {
+            emailError.textContent = '';
+            email.classList.remove('invalid');
+        }
+        
+        // Валидация телефона
+        const phone = document.getElementById('phone');
+        const phoneError = document.getElementById('phoneError');
+        const phoneRegex = /^\+7\s?\(\d{3}\)\s?\d{3}-\d{2}-\d{2}$/;
+        if (phone.value.trim() === '') {
+            phoneError.textContent = 'Пожалуйста, введите ваш телефон';
+            phone.classList.add('invalid');
+            isValid = false;
+        } else if (!phoneRegex.test(phone.value)) {
+            phoneError.textContent = 'Пожалуйста, введите телефон в формате +7 (999) 123-45-67';
+            phone.classList.add('invalid');
+            isValid = false;
+        } else {
+            phoneError.textContent = '';
+            phone.classList.remove('invalid');
+        }
+        
+        // Валидация сообщения
+        const message = document.getElementById('message');
+        const messageError = document.getElementById('messageError');
+        if (message.value.trim() === '') {
+            messageError.textContent = 'Пожалуйста, введите ваше сообщение';
+            message.classList.add('invalid');
+            isValid = false;
+        } else {
+            messageError.textContent = '';
+            message.classList.remove('invalid');
+        }
+        
+        return isValid;
+    }
+    
+    // Добавляем обработчики для сброса ошибок при вводе
+    document.getElementById('name').addEventListener('input', function() {
+        this.classList.remove('invalid');
+        document.getElementById('nameError').textContent = '';
+    });
+    
+    document.getElementById('email').addEventListener('input', function() {
+        this.classList.remove('invalid');
+        document.getElementById('emailError').textContent = '';
+    });
+    
+    document.getElementById('phone').addEventListener('input', function() {
+        this.classList.remove('invalid');
+        document.getElementById('phoneError').textContent = '';
+    });
+    
+    document.getElementById('message').addEventListener('input', function() {
+        this.classList.remove('invalid');
+        document.getElementById('messageError').textContent = '';
+    });
+});
