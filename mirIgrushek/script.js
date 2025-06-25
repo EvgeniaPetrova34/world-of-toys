@@ -346,3 +346,113 @@ function renderPagination() {
         });
     });
 }
+
+document.addEventListener('DOMContentLoaded', init); 
+document.addEventListener('DOMContentLoaded', function() {
+    // Модальное окно для изображений
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('modal-img');
+    const closeBtn = document.querySelector('.close');
+    
+    // Получаем все изображения, которые можно увеличить
+    const images = document.querySelectorAll('.about-image img, .member-photo, .review-avatar');
+    
+    images.forEach(img => {
+        img.addEventListener('click', function() {
+            modal.style.display = 'block';
+            modalImg.src = this.src;
+            modalImg.alt = this.alt;
+        });
+    });
+    
+    closeBtn.addEventListener('click', function() {
+        modal.style.display = 'none';
+    });
+    
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+    
+    // Функционал отзывов
+    const reviewForm = document.getElementById('review-form');
+    const reviewGrid = document.querySelector('.review-grid');
+    
+    // Загружаем отзывы из localStorage
+    loadReviews();
+    
+    reviewForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const name = document.getElementById('review-name').value;
+        const rating = document.getElementById('review-rating').value;
+        const text = document.getElementById('review-text').value;
+        
+        const review = {
+            name,
+            rating,
+            text,
+            date: new Date().toLocaleDateString('ru-RU'),
+            avatar: getRandomAvatar()
+        };
+        
+        addReviewToPage(review);
+        saveReview(review);
+        
+        // Очищаем форму
+        reviewForm.reset();
+    });
+    
+    function addReviewToPage(review) {
+        const reviewCard = document.createElement('div');
+        reviewCard.className = 'review-card';
+        
+        const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+        
+        reviewCard.innerHTML = `
+            <div class="review-header">
+                <img src="${review.avatar}" alt="${review.name}" class="review-avatar">
+                <div>
+                    <div class="review-author">${review.name}</div>
+                    <div class="review-date">${review.date}</div>
+                </div>
+            </div>
+            <div class="review-rating">${stars}</div>
+            <p>"${review.text}"</p>
+        `;
+        
+        // Добавляем новый отзыв в начало списка
+        reviewGrid.prepend(reviewCard);
+        
+        // Добавляем обработчик клика на аватар
+        reviewCard.querySelector('.review-avatar').addEventListener('click', function() {
+            modal.style.display = 'block';
+            modalImg.src = this.src;
+            modalImg.alt = this.alt;
+        });
+    }
+    
+    function saveReview(review) {
+        let reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+        reviews.unshift(review); // Добавляем новый отзыв в начало массива
+        localStorage.setItem('reviews', JSON.stringify(reviews));
+    }
+    
+    function loadReviews() {
+        const reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+        reviews.forEach(review => addReviewToPage(review));
+    }
+    
+    function getRandomAvatar() {
+        const avatars = [
+            'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+            'https://images.unsplash.com/photo-1552058544-f2b08422138a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+            'https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+            'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+            'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'
+        ];
+        
+        return avatars[Math.floor(Math.random() * avatars.length)];
+    }
+});
